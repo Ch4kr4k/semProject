@@ -23,5 +23,3 @@ File name should be without .csv also if no filename is not specified then we us
 This Python File use opencv and mediapipe to capture the Landmarks of the hand and panda to create a csv of those Landmarks
 
 ## Example
-
-![Screenshot](./presentation/screen.png)
