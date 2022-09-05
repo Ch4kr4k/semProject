@@ -20,3 +20,4 @@ The create_csv.py python file create a csv by appending all the Landmarks of the
     python3 get_data.py filename
 
 File name should be without .csv also if no filename is not specified then we use the default name.
+This Python File use opencv and mediapipe to capture the Landmarks of the hand and panda to create a csv of those Landmarks
