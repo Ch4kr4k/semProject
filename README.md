@@ -24,4 +24,4 @@ This Python File use opencv and mediapipe to capture the Landmarks of the hand a
 
 ## Example
 
-![Screenshot](./presentation/screen.png.png)
+![Screenshot](./presentation/screen.png)
