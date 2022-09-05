@@ -70,7 +70,7 @@ with mp_hands.Hands(
 
 
 
-    df = pd.read_csv('data.csv')
+    
     # Draw the hand annotations on the image.
     #image.flags.writeable = True
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
