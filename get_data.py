@@ -45,11 +45,11 @@ def get_data(hand_landmarks):
                 ]
 
 	series_data = pd.Series(data_list ,index=df.columns )
-	df = df.append(  series_data,ignore_index=True)
-	df.to_csv('data1.csv')
+	df = df.append( series_data,ignore_index=True)
+	df.to_csv('data.csv',index = False)
 	
 	
-cap = cv2.VideoCapture(0)  # 2 for webcam
+cap = cv2.VideoCapture(2)  # 2 for webcam
 with mp_hands.Hands(
     model_complexity=0,
     min_detection_confidence=0.5,

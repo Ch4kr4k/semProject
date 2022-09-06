@@ -1,3 +1,5 @@
+keyboard==0.13.5
 mediapipe==0.8.10.1
 opencv_contrib_python==4.6.0.66
-pandas==1.4.3
+pandas==1.4.4
+PyAutoGUI==0.9.53
