@@ -21,3 +21,9 @@ The create_csv.py python file create a csv by appending all the Landmarks of the
 
 File name should be without .csv also if no filename is not specified then we use the default name.
 This Python File use opencv and mediapipe to capture the Landmarks of the hand and panda to create a csv of those Landmarks
+
+
+## usage of dino.py
+> just a python program to control chrome://dino game with control
+
+[![vid]]({./presentation/dino.mp4} "Link Title")
