@@ -26,4 +26,4 @@ This Python File use opencv and mediapipe to capture the Landmarks of the hand a
 ## usage of dino.py
 > just a python program to control chrome://dino game with control
 
-![dino]("./presentation/dino.gif")
+![dino](./presentation/dino.gif)
