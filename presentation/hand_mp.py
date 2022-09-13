@@ -33,7 +33,7 @@ landmark_list =[
 	
 	
 print(landmark_list)	
-cap = cv2.VideoCapture(0)  # 2 for webcam
+cap = cv2.VideoCapture(0)  # 2 or 1 for webcam
 with mp_hands.Hands(
     model_complexity=0,
     min_detection_confidence=0.5,
