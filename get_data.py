@@ -11,7 +11,7 @@ mp_hands = mp.solutions.hands
 
 
 
-#df = pd.read_csv('data.csv') scope problem is used here use non local google if you dont remember stuff
+
 
 
 def get_data(hand_landmarks):
@@ -19,34 +19,22 @@ def get_data(hand_landmarks):
 	df = pd.read_csv('data.csv')
 	print(len(df.columns))
 
-	data_list =[
-                        hand_landmarks.landmark[mp_hands.HandLandmark(0).value],
-                        hand_landmarks.landmark[mp_hands.HandLandmark(1).value],
-                        hand_landmarks.landmark[mp_hands.HandLandmark(2).value],
-                        hand_landmarks.landmark[mp_hands.HandLandmark(3).value],
-                        hand_landmarks.landmark[mp_hands.HandLandmark(4).value],
-                        hand_landmarks.landmark[mp_hands.HandLandmark(5).value],
-                        hand_landmarks.landmark[mp_hands.HandLandmark(6).value],
-                        hand_landmarks.landmark[mp_hands.HandLandmark(7).value],
-                        hand_landmarks.landmark[mp_hands.HandLandmark(8).value],
-                        hand_landmarks.landmark[mp_hands.HandLandmark(9).value],
-                        hand_landmarks.landmark[mp_hands.HandLandmark(10).value],
-                        hand_landmarks.landmark[mp_hands.HandLandmark(11).value],
-                        hand_landmarks.landmark[mp_hands.HandLandmark(12).value],
-                        hand_landmarks.landmark[mp_hands.HandLandmark(13).value],
-                        hand_landmarks.landmark[mp_hands.HandLandmark(14).value],
-                        hand_landmarks.landmark[mp_hands.HandLandmark(15).value],
-                        hand_landmarks.landmark[mp_hands.HandLandmark(16).value],
-                        hand_landmarks.landmark[mp_hands.HandLandmark(17).value],
-                        hand_landmarks.landmark[mp_hands.HandLandmark(18).value],
-                        hand_landmarks.landmark[mp_hands.HandLandmark(19).value],
-                        hand_landmarks.landmark[mp_hands.HandLandmark(20).value]                        
-
-                ]
-
+	data_list =[]
+	col =[]
+	for i in range(21):
+                col.append(str(mp_hands.HandLandmark(i).name))
+        
+	for j in range(len(col)):
+                data_list.append(float(hand_landmarks.landmark[mp_hands.HandLandmark(j).value].x))
+                data_list.append(float(hand_landmarks.landmark[mp_hands.HandLandmark(j).value].y))
+                data_list.append(float(hand_landmarks.landmark[mp_hands.HandLandmark(j).value].z))
+                
+                
+        
 	series_data = pd.Series(data_list ,index=df.columns )
+	print(data_list)
 	df = df.append(  series_data,ignore_index=True)
-	df.to_csv('data1.csv')
+	df.to_csv('data.csv',index=False)
 	
 	
 cap = cv2.VideoCapture(0)  # 2 for webcam
@@ -63,7 +51,7 @@ with mp_hands.Hands(
 
     # To improve performance, optionally mark the image as not writeable to
     # pass by reference dont really know shit what this writable do.
-    #image.flags.writeable = False
+    image.flags.writeable = False
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     results = hands.process(image)
 
@@ -72,7 +60,7 @@ with mp_hands.Hands(
 
     
     # Draw the hand annotations on the image.
-    #image.flags.writeable = True
+    image.flags.writeable = True
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
     if results.multi_hand_landmarks:
       for hand_landmarks in results.multi_hand_landmarks:
@@ -90,6 +78,7 @@ with mp_hands.Hands(
                 
     # Flip the image horizontally for a selfie-view display.
     cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
-    if cv2.waitKey(5) & 0xFF == 27:
+    keyCode = cv2.waitKey(100)
+    if (keyCode & 0xFF) == ord("q"):
       break
 cap.release()
