@@ -7,13 +7,6 @@ mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
 
-
-
-
-
-
-
-
 def get_data(hand_landmarks):
 
 	df = pd.read_csv('data.csv')
