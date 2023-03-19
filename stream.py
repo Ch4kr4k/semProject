@@ -4,7 +4,7 @@ from mediapipe.tasks.python import vision
 import cv2
 from PIL import Image
 import numpy as np
-model_path = '/media/zera/DATA/Project/semProject4/exported_model/gesture_recognizer.task'
+model_path = '/media/zera/DATA/Project/semProject/rock_paper_siccor.task'
 import time
 
 import mediapipe as mp
