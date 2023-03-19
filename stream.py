@@ -13,13 +13,13 @@ VisionRunningMode = mp.tasks.vision.RunningMode
 
 # Create a gesture recognizer instance with the live stream mode:
 def print_result(result: GestureRecognizerResult, output_image: mp.Image, timestamp_ms: int):
-    top_gesture=result.gestures
+    top_gesture = result.gestures 
+    if len(top_gesture)>0:
+        print(top_gesture[0][0].category_name)
     
-
-    for  element in (top_gesture):
-        print(element[0].category_name)
+    
    
-    #print('gesture recognition result: {}'.format(top_gesture))
+   
 
 options = GestureRecognizerOptions(
     base_options=BaseOptions(model_asset_path=model_path),
