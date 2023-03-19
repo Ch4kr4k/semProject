@@ -1,13 +1,9 @@
 import mediapipe as mp
-from mediapipe.tasks import python
-from mediapipe.tasks.python import vision
 import cv2
-from PIL import Image
-import numpy as np
-model_path = '/media/zera/DATA/Project/semProject/rock_paper_siccor.task'
-import time
 
-import mediapipe as mp
+
+model_path = '/media/zera/DATA/Project/semProject/rock_paper_siccor.task'
+
 
 BaseOptions = mp.tasks.BaseOptions
 GestureRecognizer = mp.tasks.vision.GestureRecognizer
@@ -17,7 +13,13 @@ VisionRunningMode = mp.tasks.vision.RunningMode
 
 # Create a gesture recognizer instance with the live stream mode:
 def print_result(result: GestureRecognizerResult, output_image: mp.Image, timestamp_ms: int):
-    print('gesture recognition result: {}'.format(result))
+    top_gesture=result.gestures
+    
+
+    for  element in (top_gesture):
+        print(element[0].category_name)
+   
+    #print('gesture recognition result: {}'.format(top_gesture))
 
 options = GestureRecognizerOptions(
     base_options=BaseOptions(model_asset_path=model_path),
@@ -25,7 +27,7 @@ options = GestureRecognizerOptions(
     result_callback=print_result)
 
 with GestureRecognizer.create_from_options(options) as recognizer:
-    #cap = cv2.VideoCapture('/home/zera/Documents/vid.mp4')
+    
     cap = cv2.VideoCapture(0)
     
 
@@ -37,15 +39,13 @@ with GestureRecognizer.create_from_options(options) as recognizer:
        frame_timestamp_ms = cap.get(cv2.CAP_PROP_POS_MSEC)      
        
        
-       #pil_img = Image.fromarray(frame)
+       
 
        image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
 
        
        
-       #mp_image = mp.Image(format=mp.ImageFormat.SRGB, data=image)
-       #current_time = int(time.time() * 1000000)
-       #frame_timestamp_ms = mp.Timestamp(current_time)
+       
        
        
 
