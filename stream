@@ -1,0 +1,38 @@
+import mediapipe as mp
+from mediapipe.tasks import python
+from mediapipe.tasks.python import vision
+import cv2
+model_path = '/media/zera/DATA/Project/semProject/exported_model/gesture_recognizer.task'
+
+import mediapipe as mp
+
+BaseOptions = mp.tasks.BaseOptions
+GestureRecognizer = mp.tasks.vision.GestureRecognizer
+GestureRecognizerOptions = mp.tasks.vision.GestureRecognizerOptions
+GestureRecognizerResult = mp.tasks.vision.GestureRecognizerResult
+VisionRunningMode = mp.tasks.vision.RunningMode
+
+# Create a gesture recognizer instance with the live stream mode:
+def print_result(result: GestureRecognizerResult, output_image: mp.Image, timestamp_ms: int):
+    print('gesture recognition result: {}'.format(result))
+
+options = GestureRecognizerOptions(
+    base_options=BaseOptions(model_asset_path=model_path),
+    running_mode=VisionRunningMode.LIVE_STREAM,
+    result_callback=print_result)
+with GestureRecognizer.create_from_options(options) as recognizer:
+    cap = cv2.VideoCapture(0)
+    while cap.isOpened():
+       success, image = cap.read()
+       mp_image = mp.Image(format=image.SRGB, data=image)
+       recognition_result=recognizer.recognize_async(mp_image)
+
+       top_gesture = recognition_result.gestures[0][0]
+
+       print(top_gesture.category_name)
+
+
+       cv2.imshow('MediaPipe Face Mesh', cv2.flip(image, 1))
+       if cv2.waitKey(5) & 0xFF == 27:
+          break
+    cap.release()

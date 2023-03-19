@@ -24,7 +24,7 @@ class Train():
 
         
 
-    def train_model(self,model_path,epoch=10):
+    def train_model(self,model_path,epoch=20):
         hparams = gesture_recognizer.HParams(export_dir=model_path,epochs=epoch)
         options = gesture_recognizer.GestureRecognizerOptions(hparams=hparams)
         self.model = gesture_recognizer.GestureRecognizer.create(
@@ -32,10 +32,14 @@ class Train():
             validation_data=self.validation_data,
             options=options
         )
+        self.eval()
     
     def eval(self):
         loss, acc = self.model.evaluate(self.test_data, batch_size=1)
         print(f"Test loss:{loss}, Test accuracy:{acc}")
+
+    def save_model(self):
+        self.model.export_model()
 
 
 
@@ -44,7 +48,8 @@ def process(opt):
     model.get_data(opt.data)
     model.train_model(opt.path)
     if opt.save:
-        model.export_model()
+        model.save_model()
+
 
 
 
@@ -52,16 +57,19 @@ def process(opt):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '--path', type=str, default='', help='path to model wight'
+        '--path', type=str, default="exported_model", help='path to model wight'
         )
     parser.add_argument(
-        '--save', type=bool, default='', help='Save trained weights or not'
+        '--save', type=bool, default=False, help='Save trained weights or not'
     )
     parser.add_argument(
-        '--data', type=str, default=False, help='Path to dataset file'
+        '--data', type=str, default='', help='Path to dataset file'
     )
     parser.add_argument(
         '--dest',default='',help='the destination folder to saved trained weights'
+    )
+    parser.add_argument(
+        '--epoch',type=int,default=10,help='epoch'
     )
    
     opt = parser.parse_args()
