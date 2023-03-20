@@ -20,8 +20,10 @@ VisionRunningMode = mp.tasks.vision.RunningMode
 def keys(gestures):
     if gestures != 'scissors' and gestures!='none':
         key.press(ges_to_cmd[gestures])
+        print(gestures)
     elif gestures != 'none':
         key.click()
+        print(gestures)
     else:
         print(gestures)
 
