@@ -1,10 +1,10 @@
 import mediapipe as mp
 import cv2
 import pyautogui as key
-import time
 from ges_cmd import ges_to_cmd
+import threading as thread
 
-model_path = './model.task'
+model_path = './gesture_recognizer.task'
 
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
@@ -17,62 +17,37 @@ GestureRecognizerResult = mp.tasks.vision.GestureRecognizerResult
 VisionRunningMode = mp.tasks.vision.RunningMode
 
 # Create a gesture recognizer instance with the live stream mode:
-def keys(gestures):
-    if gestures != 'scissors' and gestures!='none':
-        key.press(ges_to_cmd[gestures])
-        print(gestures)
-    elif gestures != 'none':
-        key.click()
-        print(gestures)
-    else:
-        print(gestures)
+
 
 def print_result(result: GestureRecognizerResult, output_image: mp.Image, timestamp_ms: int):
     
     top_gesture = result.gestures
-    
+    res = None
+    res_l = None
+    res_r = None
 
-    #res = ''
-
-    if len(top_gesture)==1:      
-        
+    if len(top_gesture) == 1:
         res = top_gesture[0][0].category_name
-        
-        if res:
-            keys(res)
+        if res and res!='None':
+            key.press(ges_to_cmd[res])
+            print(res)
 
+    elif len(top_gesture) == 2:
+        res_r = top_gesture[0][0].category_name  # right -> left in reality
+        res_l = top_gesture[1][0].category_name  # left -> right in reality
+        
+        if res_l and res_l!='None':
+            key.press(ges_to_cmd[res_l])
+            print(res_l)
+        
+        if res_r and res_r!='None':
+            key.press(ges_to_cmd[res_r])
+            print(res_r)
 
-    elif len(top_gesture)==2:
-
-        right =result.handedness[0][0].category_name
-        left = result.handedness[1][0].category_name
-        
-        right_res = top_gesture[0][0].category_name
-        left_res = top_gesture[1][0].category_name
-    
-    
         
         
-    '''
     else:
         res = ''
-
-    if res == 'rock':
-        key.press('a')
-        print(res)
-
-    elif res == 'paper':
-        key.press('up')
-        print(res)
-
-    elif res == 'scissors':
-        key.click()
-        print(res)
-    '''
-    
-        
-
-    
 
 
 options = GestureRecognizerOptions(
@@ -83,7 +58,7 @@ options = GestureRecognizerOptions(
 
 with GestureRecognizer.create_from_options(options) as recognizer:
 
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(2)
     with mp_hands.Hands(
             model_complexity=0,
             min_detection_confidence=0.5,
@@ -113,4 +88,3 @@ with GestureRecognizer.create_from_options(options) as recognizer:
             if cv2.waitKey(5) & 0xFF == 27:
                 break
     cap.release()
-

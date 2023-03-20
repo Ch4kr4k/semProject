@@ -1,5 +1,9 @@
 ges_to_cmd = {
-    'paper':'up',
-    'rock' :'down',
-    'scissors' :'right'
+    'Thumb_Up':'up',
+    'Thumb_Down' :'down',
+    'Victory' :'right',
+    'Open_Palm':'left',
+    'Pointing_Up':'a',
+    'I_Love_You':'b',
+    'Closed_Fist':'c'
 }
