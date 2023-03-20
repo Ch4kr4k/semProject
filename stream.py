@@ -1,7 +1,7 @@
 import mediapipe as mp
 import cv2
 import pyautogui as key
-import time
+from ges_cmd import ges_to_cmd
 
 model_path = './model.task'
 
@@ -21,32 +21,20 @@ VisionRunningMode = mp.tasks.vision.RunningMode
 def print_result(result: GestureRecognizerResult, output_image: mp.Image, timestamp_ms: int):
     
     top_gesture = result.gestures
-    print(top_gesture)
-
     res = ''
 
-    if len(top_gesture)>0:
-        
+    if len(top_gesture) == 1:
         res = top_gesture[0][0].category_name
+        print(res)
+
+    elif len(top_gesture) == 2:
+        res_r = top_gesture[0][0].category_name  # right -> left in reality
+        res_l = top_gesture[1][0].category_name  # left -> right in reality
+        print(f"left:{res_l}")
+        print(f"right:{res_r}")
+        
     else:
         res = ''
-
-    if res == 'rock':
-        key.press('a')
-        print(res)
-
-    elif res == 'paper':
-        key.press('up')
-        print(res)
-
-    elif res == 'scissors':
-        key.click()
-        print(res)
-
-    else:
-        print(res)
-
-    #print('gesture recognition result: {}'.format(top_gesture))
 
 
 options = GestureRecognizerOptions(
