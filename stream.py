@@ -2,7 +2,7 @@ import mediapipe as mp
 import cv2
 
 
-model_path = '/media/zera/DATA/Project/semProject/rock_paper_siccor.task'
+model_path = './rock_paper_siccor.task'
 
 
 BaseOptions = mp.tasks.BaseOptions
