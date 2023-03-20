@@ -2,6 +2,7 @@ import mediapipe as mp
 import cv2
 import pyautogui as key
 import time
+from ges_cmd import ges_to_cmd
 
 model_path = './model.task'
 
@@ -17,22 +18,26 @@ VisionRunningMode = mp.tasks.vision.RunningMode
 
 # Create a gesture recognizer instance with the live stream mode:
 def keys(gestures):
-    if gestures != 'scissor':
-        key.press(gest_to_cmd[gestures])
+    if gestures != 'scissors' and gestures!='none':
+        key.press(ges_to_cmd[gestures])
+    elif gestures != 'none':
+        key.click()
     else:
-        key.click(gest_to_cmd[gestures])
+        print(gestures)
 
 def print_result(result: GestureRecognizerResult, output_image: mp.Image, timestamp_ms: int):
     
     top_gesture = result.gestures
     
 
-    res = ''
+    #res = ''
 
     if len(top_gesture)==1:      
         
         res = top_gesture[0][0].category_name
-        keys(res)
+        
+        if res:
+            keys(res)
 
 
     elif len(top_gesture)==2:
@@ -42,6 +47,8 @@ def print_result(result: GestureRecognizerResult, output_image: mp.Image, timest
         
         right_res = top_gesture[0][0].category_name
         left_res = top_gesture[1][0].category_name
+    
+    
         
         
     '''
@@ -59,10 +66,9 @@ def print_result(result: GestureRecognizerResult, output_image: mp.Image, timest
     elif res == 'scissors':
         key.click()
         print(res)
-
-    else:
-        print(res)
-        '''
+    '''
+    
+        
 
     
 
