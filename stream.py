@@ -1,7 +1,7 @@
 import mediapipe as mp
 import cv2
 import pyautogui as key
-from ges_cmd import ges_to_cmd,ges_to_cmd2
+from ges_cmd import ges_to_cmd, ges_to_cmd2
 import os
 import threading
 import time
@@ -9,7 +9,7 @@ import time
 record = ''
 frrame_ctr = 0
 record_r = ''
-record_l=''
+record_l = ''
 
 model_path = './model/gesture_recognizer.task'
 
@@ -25,20 +25,21 @@ VisionRunningMode = mp.tasks.vision.RunningMode
 
 # Create a gesture recognizer instance with the live stream mode:
 
+
 def key_cmd(gestures1):
 
-    if gestures1 !='None':
+    if gestures1 != 'None':
         key.press(ges_to_cmd[gestures1])
 
 
 def left_cmd(cmd):
-    if cmd !='None':
+    if cmd != 'None':
         key.keyDown(ges_to_cmd2[cmd])
 
 
 def right_cmd(cmd):
-    if cmd !='None':
-        key.press(ges_to_cmd[cmd],presses=12)
+    if cmd != 'None':
+        key.press(ges_to_cmd[cmd], presses=12)
 
 
 def print_result(result: GestureRecognizerResult, output_image: mp.Image, timestamp_ms: int):
@@ -64,19 +65,19 @@ def print_result(result: GestureRecognizerResult, output_image: mp.Image, timest
 
         global record_r
         if record_r != res_l:
-           right_cmd(res_l)
-           record_r = res_l
-           print(f"left:{res_l}")
-         
+            right_cmd(res_l)
+            record_r = res_l
+            print(f"left:{res_l}")
+
         global frrame_ctr
-        if frrame_ctr>=6 and frrame_ctr<7:
+        if frrame_ctr >= 6 and frrame_ctr < 7:
             left_cmd(res_r)
             print(f"right:{res_r}")
-        elif frrame_ctr>7:
-            frrame_ctr =0
+        elif frrame_ctr > 7:
+            frrame_ctr = 0
 
-        #print(f"left:{res_l}")
-        #print(f"right:{res_r}")
+        # print(f"left:{res_l}")
+        # print(f"right:{res_r}")
 
     else:
         res = None
@@ -99,9 +100,6 @@ def main():
         fc = 0
         FPS = 0
 
-
-
-
         with mp_hands.Hands(
                 model_complexity=0,
                 min_detection_confidence=0.5,
@@ -111,19 +109,17 @@ def main():
 
                 global frrame_ctr
                 success, frame = cap.read()
-                frrame_ctr+=1
-                
+                frrame_ctr += 1
 
-                fc+=1
+                fc += 1
                 TIME = time.time() - start_time
                 if (TIME) >= display_time:
                     FPS = fc / (TIME)
                     fc = 0
                     start_time = time.time()
-                
+
                 fps_disp = "FPS: "+str(FPS)[:5]
-                
-                
+
                 frame_timestamp_ms = cap.get(cv2.CAP_PROP_POS_MSEC)
 
                 image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
@@ -142,7 +138,6 @@ def main():
                             mp_drawing_styles.get_default_hand_landmarks_style(),
                             mp_drawing_styles.get_default_hand_connections_style())
 
-                
                 #frame = cv2.putText(frame, fps_disp, (10, 25),cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
                 cv2.imshow('rps', cv2.flip(frame, 1))
                 #cv2.imshow('rps', frame)
