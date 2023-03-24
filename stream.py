@@ -3,7 +3,6 @@ import cv2
 import pyautogui as key
 from ges_cmd import ges_to_cmd, ges_to_cmd2
 import os
-import threading
 import time
 
 record = ''
@@ -26,6 +25,16 @@ VisionRunningMode = mp.tasks.vision.RunningMode
 # Create a gesture recognizer instance with the live stream mode:
 
 
+def sys_cmds(gestures1):
+
+    if (gestures1 == 'Closed_Fist') or (gestures1 == 'rock'):
+        os.system("setwall")  # Change wallpaper
+    elif (gestures1 == 'Open_Palm') or (gestures1 == 'paper'):
+        os.system("brave")  # open brave browser
+    elif gestures1 == 'Thumb_down':
+        os.system("code")  # open vs code
+
+
 def key_cmd(gestures1):
 
     if gestures1 != 'None':
@@ -42,7 +51,9 @@ def right_cmd(cmd):
         key.press(ges_to_cmd[cmd], presses=12)
 
 
-def print_result(result: GestureRecognizerResult, output_image: mp.Image, timestamp_ms: int):
+def print_result(result: GestureRecognizerResult,
+                 output_image: mp.Image,
+                 timestamp_ms: int):
 
     top_gesture = result.gestures
     res = None
@@ -92,6 +103,7 @@ def main():
         num_hands=2)
 
     with GestureRecognizer.create_from_options(options) as recognizer:
+        # capturing the image frames from camera starts here
 
         cap = cv2.VideoCapture(0)
         start_time = time.time()

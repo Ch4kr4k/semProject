@@ -1,11 +1,11 @@
 ges_to_cmd = {
-    'Thumb_Up':'',
-    'Thumb_Down' :'',
+    'Thumb_Up':'down',
+    'Thumb_Down' :'up',
     'Victory' :'right',
-    'Open_Palm':'',
+    'Open_Palm':'a',
     'Pointing_Up':'left',
-    'ILoveYou':'',
-    'Closed_Fist':''
+    'ILoveYou':'s',
+    'Closed_Fist':'d'
 }
 
 ges_to_cmd2 = {
